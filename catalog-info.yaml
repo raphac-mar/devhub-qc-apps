@@ -1,0 +1,32 @@
+apiVersion: backstage.io/v1alpha1
+kind: Template
+metadata:
+  name: user-template
+  title: User Template
+  description: Create a new user in the Developer Hub
+spec:
+  type: user
+  parameters:
+    - title: Provide User Information
+      required:
+        - name
+        - email
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Full name of the user
+        email:
+          title: Email
+          type: string
+          format: email
+          description: Email address of the user
+  steps:
+    - id: create-user
+      name: Create User
+      action: catalog:create
+      input:
+        entityRef: user:default/${{ parameters.name }}
+        metadata:
+          name: ${{ parameters.name }}
+          email: ${{ parameters.email }}
